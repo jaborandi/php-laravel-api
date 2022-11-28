@@ -21,10 +21,10 @@
 
     <div class="container-sm">
         <div class="bg-light p-5 rounded-lg m-3">
-            <h1 class="display-4">Hello, world!</h1>
-            <p>Radystems generated Applications</p>
+            <h1 class="display-4">Eaí penetra!</h1>
+            <p>Admiro sua curiosidade em chegar até aqui...</p>
             <hr class="my-4">
-            <p class="lead">Replace with your content</p>
+            <p class="lead">Porém boa sorte, seja lá o que está procurando. Talvez se falasse comigo você teria muito mais a ganhar.</p>
         </div>
     </div>
 </body>

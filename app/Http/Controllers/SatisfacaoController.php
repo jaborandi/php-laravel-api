@@ -6,6 +6,9 @@ use App\Http\Requests\SatisfacaoEditRequest;
 use App\Http\Requests\Satisfacaoadd2Request;
 use App\Models\Satisfacao;
 use Illuminate\Http\Request;
+use \PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SatisfacaoListExport;
 use Exception;
 class SatisfacaoController extends Controller
 {
@@ -35,6 +38,10 @@ class SatisfacaoController extends Controller
 		if($fieldname){
 			$query->where($fieldname , $fieldvalue); //filter by a single field name
 		}
+		// if request format is for export example:- product/index?export=pdf
+		if($this->getExportFormat()){
+			return $this->ExportList($query); // export current query
+		}
 		$records = $this->paginate($query, Satisfacao::listFields());
 		return $this->respond($records);
 	}
@@ -58,7 +65,6 @@ class SatisfacaoController extends Controller
      */
 	function add(SatisfacaoAddRequest $request){
 		$modeldata = $request->validated();
-		$modeldata['coletado_por'] = auth()->user()->name;
 		
 		//save Satisfacao record
 		$record = Satisfacao::create($modeldata);
@@ -108,11 +114,38 @@ class SatisfacaoController extends Controller
      */
 	function add2(Satisfacaoadd2Request $request){
 		$modeldata = $request->validated();
-		$modeldata['coletado_por'] = auth()->user()->name;
 		
 		//save Satisfacao record
 		$record = Satisfacao::create($modeldata);
 		$rec_id = $record->id;
 		return $this->respond($record);
+	}
+	
+
+	/**
+     * Export table records to different format
+	 * supported format:- PDF, CSV, EXCEL, HTML
+	 * @param \Illuminate\Database\Eloquent\Model $query
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+	private function ExportList($query){
+		ob_end_clean(); // clean any output to allow file download
+		$filename = "ListSatisfacaoReport-" . date_now();
+		$format = $this->getExportFormat();
+		if($format == "print"){
+			$records = $query->get(Satisfacao::exportListFields());
+			return view("reports.satisfacao-list", ["records" => $records]);
+		}
+		elseif($format == "pdf"){
+			$records = $query->get(Satisfacao::exportListFields());
+			$pdf = PDF::loadView("reports.satisfacao-list", ["records" => $records]);
+			return $pdf->download("$filename.pdf");
+		}
+		elseif($format == "csv"){
+			return Excel::download(new SatisfacaoListExport($query), "$filename.csv", \Maatwebsite\Excel\Excel::CSV);
+		}
+		elseif($format == "excel"){
+			return Excel::download(new SatisfacaoListExport($query), "$filename.xlsx", \Maatwebsite\Excel\Excel::XLSX);
+		}
 	}
 }

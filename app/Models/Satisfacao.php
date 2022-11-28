@@ -27,7 +27,7 @@ class Satisfacao extends Model
      *
      * @var array
      */
-	protected $fillable = ["atend_recepcao","sala_triagem","atend_enfermagem","tempo_atendido","limpeza","gentileza","acomodacoes","frequencia","disposicao_equipe","extra","coletado_por"];
+	protected $fillable = ["atend_recepcao","sala_triagem","atend_enfermagem","tempo_atendido","limpeza","gentileza","acomodacoes","frequencia","disposicao_equipe","extra"];
 	
 
 	/**
@@ -47,11 +47,10 @@ class Satisfacao extends Model
 				acomodacoes LIKE ?  OR 
 				frequencia LIKE ?  OR 
 				disposicao_equipe LIKE ?  OR 
-				extra LIKE ?  OR 
-				coletado_por LIKE ? 
+				extra LIKE ? 
 		)';
 		$search_params = [
-			"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
+			"%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%","%$text%"
 		];
 		//setting search conditions
 		$query->whereRaw($search_condition, $search_params);
@@ -124,8 +123,7 @@ class Satisfacao extends Model
 			"frequencia", 
 			"disposicao_equipe", 
 			"extra", 
-			"inserido_em", 
-			"coletado_por" 
+			"inserido_em" 
 		];
 	}
 	
@@ -148,8 +146,7 @@ class Satisfacao extends Model
 			"frequencia", 
 			"disposicao_equipe", 
 			"extra", 
-			"inserido_em", 
-			"coletado_por" 
+			"inserido_em" 
 		];
 	}
 	
@@ -171,8 +168,7 @@ class Satisfacao extends Model
 			"acomodacoes", 
 			"frequencia", 
 			"disposicao_equipe", 
-			"extra", 
-			"coletado_por" 
+			"extra" 
 		];
 	}
 	

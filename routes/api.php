@@ -64,10 +64,8 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('satisfacao/index', 'SatisfacaoController@index');
 	Route::get('satisfacao/index/{filter?}/{filtervalue?}', 'SatisfacaoController@index');	
 	Route::get('satisfacao/view/{rec_id}', 'SatisfacaoController@view');	
-	Route::post('satisfacao/add', 'SatisfacaoController@add');	
 	Route::any('satisfacao/edit/{rec_id}', 'SatisfacaoController@edit');	
-	Route::any('satisfacao/delete/{rec_id}', 'SatisfacaoController@delete');	
-	Route::post('satisfacao/add2', 'SatisfacaoController@add2');
+	Route::any('satisfacao/delete/{rec_id}', 'SatisfacaoController@delete');
 
 /* routes for Status_Agendamento Controller  */	
 	Route::get('status_agendamento', 'Status_AgendamentoController@index');
@@ -95,6 +93,8 @@ Route::middleware(['auth:api'])->group(function () {
 
 Route::get('home', 'HomeController@index');
 	
+	Route::post('satisfacao/add', 'SatisfacaoController@add');	
+	Route::post('satisfacao/add2', 'SatisfacaoController@add2');	
 	Route::post('auth/register', 'AuthController@register');	
 	Route::post('auth/login', 'AuthController@login');
 	Route::get('login', 'AuthController@login')->name('login');
